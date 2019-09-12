@@ -5,16 +5,15 @@ import os
 
 
 class TicTacToe:
-    def __init__(self):
-        self.board = ['_', '|', '_', '|', '_', '_', '|', '_', '|', '_', ' ', '|', ' ', '|', ' ']
-        self.remaining_choices = ['1', ' ', '2', ' ', '3', ' ', '4', ' ', '5', ' ', '6', ' ', '7', ' ', '8', ' ', '9']
-        self.player_game_piece = str
-        self.comp_game_piece = str
-        self.valid_board_choices = {1:0, 2:2, 3:4, 4:5, 5:7, 6:9, 7:10, 8:12, 9:14}
-        self.valid_remaining_choices = {1:0, 2:2, 3:4, 4:6, 5:8, 6:10, 7:12, 8:14, 9:16}
-        self.won_game = False
-        self.players = int
-        self.coin_toss = int
+    board = ['_', '|', '_', '|', '_', '_', '|', '_', '|', '_', ' ', '|', ' ', '|', ' ']
+    remaining_choices = ['1', ' ', '2', ' ', '3', ' ', '4', ' ', '5', ' ', '6', ' ', '7', ' ', '8', ' ', '9']
+    player_game_piece = str
+    comp_game_piece = str
+    valid_board_choices = {1:0, 2:2, 3:4, 4:5, 5:7, 6:9, 7:10, 8:12, 9:14}
+    valid_remaining_choices = {1:0, 2:2, 3:4, 4:6, 5:8, 6:10, 7:12, 8:14, 9:16}
+    won_game = False
+    players = int
+    coin_toss = int
 
     def number_of_players(self):
         """
@@ -99,7 +98,7 @@ class TicTacToe:
 
     def game_over(self):
         """
-        Checks self.board to see if a win condition has been met.
+        Checks self.board to see if a win condition (3 game pieces in a row) has been met.
         """
         if self.remaining_choices[0:5:2] == [self.player_game_piece] * 3:
             print("Player_1 Wins!")
@@ -165,11 +164,11 @@ class TicTacToe:
             self.draw_board()
             self.won_game = True
 
-        elif self.remaining_choices[4:12:4] == [self.player_game_piece] * 3:
+        elif self.remaining_choices[4:13:4] == [self.player_game_piece] * 3:
             print("Player_1 Wins!")
             self.draw_board()
             self.won_game = True
-        elif self.remaining_choices[4:12:4] == [self.comp_game_piece] * 3:
+        elif self.remaining_choices[4:13:4] == [self.comp_game_piece] * 3:
             print("Player_2 Wins!")
             self.draw_board()
             self.won_game = True
@@ -181,12 +180,13 @@ class TicTacToe:
         self.number_of_players()
         self.coin_toss = random.randint(1,2)
 
+        ## Loop for if there is 1 player.
         if self.players == 1:
             if self.coin_toss == 1:
                 print("Player_1 goes first.")
                 time.sleep(2)
-                while self.won_game == False:
-                    self.player_choice_one(self.player_game_piece)
+                while not self.won_game:
+                    self.player_choice(self.player_game_piece)
                     self.game_over()
                     if self.won_game:
                         play_again = input("Would you like to play again? (Y/N) ").upper()
@@ -209,7 +209,7 @@ class TicTacToe:
             else:
                 print("Player_2 goes first.")
                 time.sleep(2)
-                while self.won_game == False:
+                while not self.won_game:
                     self.pc_choice()
                     self.game_over()
                     if self.won_game:
@@ -220,6 +220,9 @@ class TicTacToe:
                             start_game.play_game()
                         else:
                             sys.exit()
+                    else:
+                        pass
+
                     self.player_choice(self.player_game_piece)
                     self.game_over()
                     if self.won_game:
@@ -230,13 +233,14 @@ class TicTacToe:
                             start_game.play_game()
                         else:
                             sys.exit()
+                    else:
+                        pass
 
-
-
+        ## Loop for if there are 2 players.
         elif self.players == 2:
             if self.coin_toss == 1:
                 print("Player_1 goes first")
-                while self.won_game == False:
+                while not self.won_game:
                     self.player_choice(self.player_game_piece)
                     self.game_over()
                     if self.won_game:
@@ -262,7 +266,7 @@ class TicTacToe:
 
             elif self.coin_toss == 2:
                 print("Player_2 goes first")
-                while self.won_game == False:
+                while not self.won_game:
                     self.player_choice(self.comp_game_piece)
                     self.game_over()
                     if self.won_game:
